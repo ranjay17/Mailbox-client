@@ -1,10 +1,8 @@
-import Signup from "./components/Signup";
+import AppRoutes from "./routes/AppRoutes";
 
 const App = () =>{
   return(
-    <div>
-      <Signup />
-    </div>
+    <AppRoutes />
   )
 }
 
