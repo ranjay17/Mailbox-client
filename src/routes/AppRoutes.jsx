@@ -4,6 +4,7 @@ import SignUp from '../components/Signup';
 import Login from '../components/Login';
 import Home from '../components/Home';
 import ComposeMail from '../components/ComposeMail';
+import Inbox from '../components/Inbox';
 
 const AppRoutes = () => {
     const appRouter = createBrowserRouter([
@@ -22,6 +23,10 @@ const AppRoutes = () => {
         {
             path: '/compose',
             element: <ComposeMail />
+        },
+        {
+            path: '/inbox',
+            element: <Inbox />
         }
     ])
   return (

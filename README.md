@@ -27,4 +27,19 @@
  - Client-side validation:
     Checks if To, Subject, and Body are not empty.
     Email is stored in Firebase Realtime Database.
+
+### Home Page
+- Displays a welcome message.
+- Provides two navigation buttons:
+     Inbox
+     Compose Mail
+- Built using React-Bootstrap for clean UI.
+
+### Inbox Page
+- Displays all emails received by the logged-in user.
+- Fetches mails using Firebase Realtime Database:
+- inbox/<loggedInUserEmail>
+- Shows mail details
+- If no mails exist, shows "No mails found".
+- Includes a Compose button to quickly create a new mail.
     
