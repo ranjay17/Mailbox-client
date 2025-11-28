@@ -10,3 +10,21 @@
 - On successful signup:
   - Shows a success alert
   - Logs `User has successfully signed up` in console.
+
+  ### Login Page
+- Users can login using **Email**, **Password**.
+- All fields are **mandatory**.
+- Client-side validation:
+  - Empty field check
+- Firebase Authentication API used for login.
+- On successful login:
+  - Shows a success alert
+  - navigate to home page.
+
+### ComposeMail Page
+ - Users can create and send a new mail using To, Subject, and Mail Body fields.
+ - All fields are mandatory.
+ - Client-side validation:
+    Checks if To, Subject, and Body are not empty.
+    Email is stored in Firebase Realtime Database.
+    

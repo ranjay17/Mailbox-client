@@ -3,6 +3,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import SignUp from '../components/Signup';
 import Login from '../components/Login';
 import Home from '../components/Home';
+import ComposeMail from '../components/ComposeMail';
 
 const AppRoutes = () => {
     const appRouter = createBrowserRouter([
@@ -18,6 +19,10 @@ const AppRoutes = () => {
             path: '/home',
             element: <Home />
         },
+        {
+            path: '/compose',
+            element: <ComposeMail />
+        }
     ])
   return (
    <RouterProvider router={appRouter}/>

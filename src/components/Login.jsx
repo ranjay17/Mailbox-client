@@ -34,6 +34,8 @@ const Login = () => {
             }
             alert("Login Successfull")
             localStorage.setItem('token', data.idToken);
+            localStorage.setItem("email", email);
+
             navigate('/home')
             console.log("User has successfully Loged in:", data);
         } catch (error) {
