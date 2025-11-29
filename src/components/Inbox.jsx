@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, ListGroup, Badge, Row, Col } from "react-bootstrap";
+import { Container, ListGroup, Badge, Row, Col, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { setInbox, setSelectedMail } from "../redux/mailSlice";
 
@@ -36,22 +36,26 @@ const Inbox = () => {
     fetchInbox();
   }, []);
 
-  // Open mail (mark read + navigate)
-  const handleOpenMail = async (mail) => {
-    const mailURL = `https://mailbox-client-eb666-default-rtdb.firebaseio.com/inbox/${loggedEmail}/${mail.id}.json`;
+  // 🔥 DELETE MAIL FUNCTION
+  const handleDelete = async (id) => {
+    const url = `https://mailbox-client-eb666-default-rtdb.firebaseio.com/inbox/${loggedEmail}/${id}.json`;
 
     try {
-      await fetch(mailURL, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...mail, read: true }),
-      });
+      await fetch(url, { method: "DELETE" });
 
-      dispatch(setSelectedMail(mail)); 
-      navigate(`/mail/${mail.id}`);
+      // Remove from frontend
+      const updated = mails.filter((m) => m.id !== id);
+      setMails(updated);
+      dispatch(setInbox(updated));
     } catch (error) {
-      console.log("Error marking as read:", error);
+      console.log("Error deleting mail:", error);
     }
+  };
+
+  // Open mail
+  const handleOpenMail = (mail) => {
+    dispatch(setSelectedMail(mail));
+    navigate(`/mail/${mail.id}`);
   };
 
   return (
@@ -64,11 +68,9 @@ const Inbox = () => {
         {mails.map((mail) => (
           <ListGroup.Item
             key={mail.id}
-            action
-            onClick={() => handleOpenMail(mail)}
             className="d-flex justify-content-between align-items-center"
           >
-            <Row className="w-100">
+            <Row className="w-100 align-items-center">
               <Col xs={1} className="d-flex align-items-center">
                 {!mail.read && (
                   <Badge
@@ -81,14 +83,25 @@ const Inbox = () => {
                   ></Badge>
                 )}
               </Col>
-
-              <Col xs={8}>
+              <Col
+                xs={7}
+                onClick={() => handleOpenMail(mail)}
+                style={{ cursor: "pointer" }}
+              >
                 <strong>{mail.subject}</strong>
                 <div className="text-muted">{mail.body?.slice(0, 40)}...</div>
               </Col>
-
-              <Col xs={3} className="text-end text-muted">
+              <Col xs={2} className="text-end text-muted">
                 {mail.from}
+              </Col>
+              <Col xs={2} className="text-end">
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleDelete(mail.id)}
+                >
+                  Delete
+                </Button>
               </Col>
             </Row>
           </ListGroup.Item>
