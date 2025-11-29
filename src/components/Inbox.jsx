@@ -1,64 +1,99 @@
 import { useEffect, useState } from "react";
-import { Container, Card, ListGroup, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Container, ListGroup, Badge, Row, Col } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { setInbox, setSelectedMail } from "../redux/mailSlice";
 
 const Inbox = () => {
-  const navigate = useNavigate();
   const [mails, setMails] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const email = localStorage.getItem("email");
+  const loggedEmail = localStorage.getItem("email")?.replace(/\./g, ",");
+  const inboxURL = `https://mailbox-client-eb666-default-rtdb.firebaseio.com/inbox/${loggedEmail}.json`;
 
-  const convertMailId = (mail) => mail.replace(/\./g, ",");
-
+  // Fetch Inbox
   useEffect(() => {
-    const fetchMails = async () => {
-      const userPath = convertMailId(email);
+    const fetchInbox = async () => {
+      try {
+        const res = await fetch(inboxURL);
+        const data = await res.json();
 
-      const res = await fetch(
-        `https://mailbox-client-eb666-default-rtdb.firebaseio.com/inbox/${userPath}.json`
-      );
+        if (data) {
+          const arr = Object.keys(data).map((key) => ({
+            id: key,
+            ...data[key],
+          }));
 
-      const data = await res.json();
-
-      if (data) {
-        const arr = Object.keys(data).map((id) => ({
-          id,
-          ...data[id],
-        }));
-        setMails(arr);
+          setMails(arr);
+          dispatch(setInbox(arr));
+        }
+      } catch (err) {
+        console.log("Error fetching inbox:", err);
       }
     };
 
-    fetchMails();
+    fetchInbox();
   }, []);
+
+  // Open mail (mark read + navigate)
+  const handleOpenMail = async (mail) => {
+    const mailURL = `https://mailbox-client-eb666-default-rtdb.firebaseio.com/inbox/${loggedEmail}/${mail.id}.json`;
+
+    try {
+      await fetch(mailURL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...mail, read: true }),
+      });
+
+      dispatch(setSelectedMail(mail)); 
+      navigate(`/mail/${mail.id}`);
+    } catch (error) {
+      console.log("Error marking as read:", error);
+    }
+  };
 
   return (
     <Container className="mt-4">
-      <div className="d-flex justify-content-between mb-3">
-        <h3>Inbox</h3>
-        <Button onClick={() => navigate("/compose")}>Compose</Button>
-      </div>
+      <h3 className="mb-4">
+        Inbox <Badge bg="primary">{mails.filter((m) => !m.read).length}</Badge>
+      </h3>
 
-      <Card>
-        <ListGroup variant="flush">
-          {mails.length === 0 && (
-            <p className="p-3 text-center">No mails found</p>
-          )}
+      <ListGroup>
+        {mails.map((mail) => (
+          <ListGroup.Item
+            key={mail.id}
+            action
+            onClick={() => handleOpenMail(mail)}
+            className="d-flex justify-content-between align-items-center"
+          >
+            <Row className="w-100">
+              <Col xs={1} className="d-flex align-items-center">
+                {!mail.read && (
+                  <Badge
+                    bg="primary"
+                    style={{
+                      width: "10px",
+                      height: "10px",
+                      borderRadius: "50%",
+                    }}
+                  ></Badge>
+                )}
+              </Col>
 
-          {mails.map((mail) => (
-            <ListGroup.Item
-              key={mail.id}
-              className="d-flex justify-content-between"
-            >
-              <div>
-                <strong>{mail.from}</strong>
-                <div>{mail.subject}</div>
-              </div>
-              <small>{new Date(mail.time).toLocaleString()}</small>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </Card>
+              <Col xs={8}>
+                <strong>{mail.subject}</strong>
+                <div className="text-muted">{mail.body?.slice(0, 40)}...</div>
+              </Col>
+
+              <Col xs={3} className="text-end text-muted">
+                {mail.from}
+              </Col>
+            </Row>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
     </Container>
   );
 };
