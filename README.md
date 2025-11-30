@@ -1,47 +1,16 @@
-# Mailbox Client
+### Mailbox Client 
 
-### Signup Page
-- Users can create a new account using **Email**, **Password**, and **Confirm Password**.
-- All fields are **mandatory**.
-- Client-side validation:
-  - Empty field check
-  - Password and Confirm Password match check
-- Firebase Authentication API used for creating new users.
-- On successful signup:
-  - Shows a success alert
-  - Logs `User has successfully signed up` in console.
+A simple Gmail-like mailbox application built using React, Redux Toolkit, React Router, and Firebase Authentication + Realtime Database.
+Users can sign up, log in, send mails, read inbox, view sent mails, and delete mails.
 
-  ### Login Page
-- Users can login using **Email**, **Password**.
-- All fields are **mandatory**.
-- Client-side validation:
-  - Empty field check
-- Firebase Authentication API used for login.
-- On successful login:
-  - Shows a success alert
-  - navigate to home page.
+🚀 Live Features
 
-### ComposeMail Page
- - Users can create and send a new mail using To, Subject, and Mail Body fields.
- - All fields are mandatory.
- - Client-side validation:
-    Checks if To, Subject, and Body are not empty.
-    Email is stored in Firebase Realtime Database.
-
-### Home Page
-- Displays a welcome message.
-- Provides two navigation buttons:
-     Inbox
-     Compose Mail
-- Built using React-Bootstrap for clean UI.
-
-### Inbox Page
-- Displays all emails received by the logged-in user.
-- Fetches mails using Firebase Realtime Database:
-- inbox/<loggedInUserEmail>
-- Shows mail details
-- If no mails exist, shows "No mails found".
-- Includes a Compose button to quickly create a new mail.
-
-
-    
+✔ User Signup & Login (Firebase Auth)
+✔ Compose & Send Email
+✔ Inbox with real-time updates (polling every 2 seconds)
+✔ Sent mails page
+✔ View full mail details
+✔ Delete mail from inbox
+✔ Unread mail indicator badge
+✔ Global state management using Redux Toolkit
+✔ Navigation using React Router v6
