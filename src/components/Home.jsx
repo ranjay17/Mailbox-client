@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, Card, Button } from "react-bootstrap";
 
 const Home = () => {
@@ -24,7 +24,11 @@ const Home = () => {
           <Button variant="primary" size="lg" onClick={handleInbox}>
             📥 Inbox
           </Button>
-
+          <Link to="/sent" style={{ textDecoration: "none" }}>
+            <Button variant="info" size="lg" className="w-100">
+              📤 Sent
+            </Button>
+          </Link>
           <Button variant="success" size="lg" onClick={handleCompose}>
             ✉️ Compose Mail
           </Button>
@@ -35,4 +39,3 @@ const Home = () => {
 };
 
 export default Home;
-

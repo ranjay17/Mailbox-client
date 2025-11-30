@@ -42,4 +42,6 @@
 - Shows mail details
 - If no mails exist, shows "No mails found".
 - Includes a Compose button to quickly create a new mail.
+
+
     

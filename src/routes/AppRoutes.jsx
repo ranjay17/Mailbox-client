@@ -6,6 +6,7 @@ import Home from "../components/Home";
 import ComposeMail from "../components/ComposeMail";
 import Inbox from "../components/Inbox";
 import MailDetails from "../components/MailDetails";
+import Sent from "../components/Sent";
 
 const AppRoutes = () => {
   const appRouter = createBrowserRouter([
@@ -33,6 +34,10 @@ const AppRoutes = () => {
       path: "/mail/:id",
       element: <MailDetails />,
     },
+    {
+      path: '/sent',
+      element: <Sent />
+    }
   ]);
 
   return <RouterProvider router={appRouter} />;
