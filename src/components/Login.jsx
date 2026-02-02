@@ -21,7 +21,8 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDIWIv4gF6B5o-mi3BCyYap3ATb3fEsYeY",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+          import.meta.env.VITE_FIREBASE_API,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

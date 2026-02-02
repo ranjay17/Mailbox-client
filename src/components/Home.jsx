@@ -6,7 +6,6 @@ const Home = () => {
   return (
     <>
       <Header />
-
       <div className="home-container">
         <div className="home-card">
           <h2 className="home-title">Welcome to Your Mailbox</h2>
