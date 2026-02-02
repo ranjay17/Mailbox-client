@@ -72,9 +72,3 @@ Timestamp
 ✔ Centralized slices: Auth, Mailbox
 
 ✔ Optimized state updates for performance
-
-🔄 Real-time Sync
-
-✔ Polling every 2 seconds fetches new mails
-
-✔ Efficient mailbox refresh system

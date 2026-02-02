@@ -1,40 +1,32 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Container, Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Header from "./Header";
+import "../CSS/Home.css";
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  const handleCompose = () => {
-    navigate("/compose");
-  };
-
-  const handleInbox = () => {
-    navigate("/inbox");
-  };
-
   return (
-    <Container className="d-flex justify-content-center mt-5">
-      <Card
-        className="p-4 shadow"
-        style={{ width: "450px", textAlign: "center" }}
-      >
-        <h2 className="mb-4">Welcome to Your Mailbox</h2>
+    <>
+      <Header />
 
-        <div className="d-grid gap-3">
-          <Button variant="primary" size="lg" onClick={handleInbox}>
-            📥 Inbox
-          </Button>
-          <Link to="/sent" style={{ textDecoration: "none" }}>
-            <Button variant="info" size="lg" className="w-100">
-              📤 Sent
-            </Button>
-          </Link>
-          <Button variant="success" size="lg" onClick={handleCompose}>
-            ✉️ Compose Mail
-          </Button>
+      <div className="home-container">
+        <div className="home-card">
+          <h2 className="home-title">Welcome to Your Mailbox</h2>
+
+          <div className="home-actions">
+            <Link to="/inbox" className="home-link">
+              <button className="home-btn inbox-btn">📥 Inbox</button>
+            </Link>
+
+            <Link to="/sent" className="home-link">
+              <button className="home-btn sent-btn">📤 Sent</button>
+            </Link>
+
+            <Link to="/compose" className="home-link">
+              <button className="home-btn compose-btn">✉️ Compose Mail</button>
+            </Link>
+          </div>
         </div>
-      </Card>
-    </Container>
+      </div>
+    </>
   );
 };
 

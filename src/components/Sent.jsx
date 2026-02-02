@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Container, ListGroup, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSelectedMail } from "../redux/mailSlice";
+import Header from "./Header";
+import "../CSS/Sent.css";
 
 const Sent = () => {
   const [sentMails, setSentMails] = useState([]);
@@ -41,31 +42,28 @@ const Sent = () => {
   };
 
   return (
-    <Container className="mt-4">
-      <h3 className="mb-4">Sent Mails</h3>
+    <div className="sent-container">
+      <Header />
 
-      <ListGroup>
+      <h3 className="sent-title">Sent Mails</h3>
+
+      <div className="sent-list">
         {sentMails.map((mail) => (
-          <ListGroup.Item
+          <div
             key={mail.id}
-            action
+            className="sent-item"
             onClick={() => handleOpenMail(mail)}
-            className="d-flex justify-content-between align-items-center"
           >
-            <Row className="w-100">
-              <Col xs={8}>
-                <strong>{mail.subject}</strong>
-                <div className="text-muted">{mail.body?.slice(0, 40)}...</div>
-              </Col>
+            <div className="sent-content">
+              <strong>{mail.subject}</strong>
+              <div className="sent-preview">{mail.body?.slice(0, 40)}...</div>
+            </div>
 
-              <Col xs={4} className="text-end text-muted">
-                To: {mail.to}
-              </Col>
-            </Row>
-          </ListGroup.Item>
+            <div className="sent-to">To: {mail.to}</div>
+          </div>
         ))}
-      </ListGroup>
-    </Container>
+      </div>
+    </div>
   );
 };
 

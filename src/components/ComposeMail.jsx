@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Container, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
+import "../CSS/ComposeMail.css";
 
 const ComposeMail = () => {
   const [to, setTo] = useState("");
@@ -31,24 +32,22 @@ const ComposeMail = () => {
     };
 
     try {
-      // Receiver inbox
       await fetch(
         `https://mailbox-client-eb666-default-rtdb.firebaseio.com/inbox/${receiverPath}.json`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(emailData),
-        }
+        },
       );
 
-      // Sender sentbox
       await fetch(
         `https://mailbox-client-eb666-default-rtdb.firebaseio.com/sent/${senderPath}.json`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(emailData),
-        }
+        },
       );
 
       alert("Mail sent successfully!");
@@ -64,48 +63,50 @@ const ComposeMail = () => {
   };
 
   return (
-    <Container className="mt-4">
-      <Card className="p-4 shadow">
-        <h3 className="mb-3">Compose Mail</h3>
+    <>
+    <Header />
+      <div className="compose-container">
+        <div className="compose-card">
+          <h3 className="compose-title">Compose Mail</h3>
 
-        <Form>
-          <Form.Group className="mb-3">
-            <Form.Label>To</Form.Label>
-            <Form.Control
-              type="email"
-              value={to}
-              onChange={(e) => setTo(e.target.value)}
-              placeholder="Enter receiver email"
-            />
-          </Form.Group>
+          <form className="compose-form">
+            <div className="form-group">
+              <label>To</label>
+              <input
+                type="email"
+                value={to}
+                onChange={(e) => setTo(e.target.value)}
+                placeholder="Enter receiver email"
+              />
+            </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Subject</Form.Label>
-            <Form.Control
-              type="text"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Enter subject"
-            />
-          </Form.Group>
+            <div className="form-group">
+              <label>Subject</label>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="Enter subject"
+              />
+            </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Mail Body</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={8}
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              placeholder="Write your message..."
-            />
-          </Form.Group>
+            <div className="form-group">
+              <label>Mail Body</label>
+              <textarea
+                rows="8"
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                placeholder="Write your message..."
+              />
+            </div>
 
-          <Button className="mt-3 w-100" onClick={handleSend}>
-            Send
-          </Button>
-        </Form>
-      </Card>
-    </Container>
+            <button type="button" className="send-btn" onClick={handleSend}>
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
+    </>
   );
 };
 

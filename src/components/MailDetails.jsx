@@ -1,32 +1,37 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Card, Button } from "react-bootstrap";
+import Header from "./Header";
+import "../CSS/MailDetails.css";
 
 const MailDetails = () => {
   const mail = useSelector((state) => state.mail.selectedMail);
   const navigate = useNavigate();
 
-  if (!mail) return <h3 className="mt-5 text-center">No mail selected</h3>;
+  if (!mail) {
+    return <h3 className="no-mail">No mail selected</h3>;
+  }
 
   return (
-    <div className="container mt-4">
-      <Button variant="secondary" onClick={() => navigate(-1)}>
+    <div className="mail-details-container">
+      <Header />
+
+      <button className="back-btn" onClick={() => navigate(-1)}>
         ← Back
-      </Button>
+      </button>
 
-      <Card className="mt-3 shadow-sm">
-        <Card.Header>
+      <div className="mail-card">
+        <div className="mail-card-header">
           <h5>{mail.subject}</h5>
-        </Card.Header>
+        </div>
 
-        <Card.Body>
+        <div className="mail-card-body">
           <p>
             <strong>From:</strong> {mail.from}
           </p>
           <hr />
           <p>{mail.body}</p>
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
