@@ -16,9 +16,22 @@ const Inbox = () => {
 
   dispatch(setInbox(mails));
 
-  const handleOpenMail = (mail) => {
-    dispatch(setSelectedMail(mail));
+  const handleOpenMail = async (mail) => {
+    dispatch(setSelectedMail({ ...mail, read: true }));
     navigate(`/mail/${mail.id}`);
+
+    if (mail.read) return;
+    const readUrl = `https://mailbox-client-eb666-default-rtdb.firebaseio.com/inbox/${loggedEmail}/${mail.id}/read.json`;
+
+    try {
+      await fetch(readUrl, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(true),
+      });
+    } catch (err) {
+      console.log("Read update failed", err);
+    }
   };
 
   const handleDelete = async (id) => {
